@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HTML5 Inputs – Demo & Validierung</title>
+    <style>
+      :root {
+        --gap: 0.75rem;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        line-height: 1.45;
+        padding: 2rem;
+      }
+      form {
+        max-width: 1000px;
+      }
+      fieldset {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+      }
+      legend {
+        font-weight: 700;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: var(--gap) 1rem;
+        align-items: center;
+        margin: 0.5rem 0;
+      }
+      .hint {
+        font-size: 0.9rem;
+        color: #555;
+        grid-column: 2;
+      }
+      output {
+        font-variant-numeric: tabular-nums;
+      }
+      .inline {
+        display: inline-flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      .actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .ok {
+        color: #056e12;
+        font-weight: 600;
+      }
+      .err {
+        color: #b00020;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Alle HTML-5 Eingabetypen inkl. Validierung</h1>
+
+    <form id="demoForm" action="#" method="post" enctype="multipart/form-data">
+      <!-- hidden: wird mitgesendet -->
+      <input type="hidden" name="hidden_token" value="abc123xyz" />
+
+      <fieldset>
+        <legend>Textbezogene Felder</legend>
+
+        <div class="row">
+          <label for="text">text (Pflicht, 2–100 Zeichen)</label>
+          <input
+            id="text"
+            name="text"
+            type="text"
+            required
+            minlength="2"
+            maxlength="100"
+            placeholder="Dein Name oder Titel"
+          />
+        </div>
+
+        <div class="row">
+          <label for="search">search (mind. 3 Zeichen)</label>
+          <input
+            id="search"
+            name="search"
+            type="search"
+            required
+            pattern=".{3,}"
+            placeholder="Suchbegriff"
+          />
+          <div class="hint">
+            Einfaches Muster: <code>.{3,}</code> ⇒ mindestens 3 Zeichen.
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="email">email (RFC-Format)</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            inputmode="email"
+            placeholder="ich@beispiel.de"
+          />
+        </div>
+
+        <div class="row">
+          <label for="password">password (min. 8, Buchstabe+Zahl)</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            required
+            minlength="8"
+            pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$"
+            placeholder="Passwort"
+          />
+          <div class="hint">
+            Pattern erzwingt mind. 1 Buchstaben und 1 Zahl.
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="tel">tel (international, 7–15 Ziffern)</label>
+          <input
+            id="tel"
+            name="tel"
+            type="tel"
+            required
+            pattern="^\+?[0-9\s\-]{7,15}$"
+            placeholder="+43 660 1234567"
+          />
+        </div>
+
+        <div class="row">
+          <label for="url">url (mit Schema)</label>
+          <input
+            id="url"
+            name="url"
+            type="url"
+            required
+            placeholder="https://example.com"
+          />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Zahlen & Bereiche</legend>
+
+        <div class="row">
+          <label for="number">number (1–100, ganzzahlig)</label>
+          <input
+            id="number"
+            name="number"
+            type="number"
+            required
+            min="1"
+            max="100"
+            step="1"
+            value="42"
+          />
+        </div>
+
+        <div class="row">
+          <label for="range">range (0–100, Live-Wert)</label>
+          <div class="inline">
+            <input
+              id="range"
+              name="range"
+              type="range"
+              required
+              min="0"
+              max="100"
+              step="1"
+              value="50"
+              aria-describedby="rangeOut"
+            />
+            <output id="rangeOut" for="range">50</output>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Datum & Zeit</legend>
+
+        <div class="row">
+          <label for="date">date</label>
+          <input
+            id="date"
+            name="date"
+            type="date"
+            required
+            min="2020-01-01"
+            max="2035-12-31"
+          />
+        </div>
+
+        <div class="row">
+          <label for="datetime">datetime-local</label>
+          <input
+            id="datetime"
+            name="datetime"
+            type="datetime-local"
+            required
+            min="2020-01-01T00:00"
+            max="2035-12-31T23:59"
+          />
+        </div>
+
+        <div class="row">
+          <label for="time">time</label>
+          <input id="time" name="time" type="time" required step="60" />
+          <div class="hint">Schrittweite 60 s ⇒ ganze Minuten.</div>
+        </div>
+
+        <div class="row">
+          <label for="month">month</label>
+          <input
+            id="month"
+            name="month"
+            type="month"
+            required
+            min="2020-01"
+            max="2035-12"
+          />
+        </div>
+
+        <div class="row">
+          <label for="week">week</label>
+          <input
+            id="week"
+            name="week"
+            type="week"
+            required
+            min="2020-W01"
+            max="2035-W53"
+          />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Auswahl & Dateien</legend>
+
+        <div class="row">
+          <span>radio (Pflicht – eine Option)</span>
+          <div class="inline" role="radiogroup" aria-label="radio">
+            <label
+              ><input type="radio" name="radio_choice" value="A" required />
+              A</label
+            >
+            <label
+              ><input type="radio" name="radio_choice" value="B" /> B</label
+            >
+            <label
+              ><input type="radio" name="radio_choice" value="C" /> C</label
+            >
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="checkbox">checkbox (AGB zustimmen)</label>
+          <input id="checkbox" name="tos" type="checkbox" required />
+        </div>
+
+        <div class="row">
+          <label for="color">color</label>
+          <input
+            id="color"
+            name="color"
+            type="color"
+            required
+            value="#3366ff"
+          />
+        </div>
+
+        <div class="row">
+          <label for="file">file (PNG/JPG/PDF, ≤ 2 MB)</label>
+          <input
+            id="file"
+            name="file"
+            type="file"
+            required
+            accept=".png,.jpg,.jpeg,application/pdf"
+          />
+          <div class="hint">
+            Typen via <code>accept</code>; Größe per JavaScript geprüft.
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Formular-Aktionen</legend>
+
+        <div class="row">
+          <label for="imgSubmit">image (grafischer Submit)</label>
+          <!-- kleines Inline-SVG als Data-URL -->
+          <input
+            id="imgSubmit"
+            name="imgSubmit"
+            type="image"
+            alt="Grafisch absenden"
+            width="120"
+            height="36"
+            src='data:image/svg+xml;utf8,
+             <svg xmlns="http://www.w3.org/2000/svg" width="120" height="36">
+               <rect x="0" y="0" width="120" height="36" rx="8" ry="8" fill="%232871f7"/>
+               <text x="60" y="23" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Absenden</text>
+             </svg>'
+          />
+          <div class="hint">
+            Klick auf das Bild sendet das Formular (x/y werden übertragen).
+          </div>
+        </div>
+
+        <div class="row">
+          <label>button (JS-Aktion)</label>
+          <div class="actions">
+            <input type="reset" value="reset" />
+            <button type="button" id="helpBtn">button: Hilfe anzeigen</button>
+            <button type="submit">submit</button>
+          </div>
+        </div>
+      </fieldset>
+
+      <p id="formMsg" aria-live="polite"></p>
+    </form>
+
+    <script>
+      // ---------- Komfort: Range-Wert live anzeigen ----------
+      const range = document.getElementById("range");
+      const rangeOut = document.getElementById("rangeOut");
+      range.addEventListener("input", () => {
+        rangeOut.value = range.value;
+      });
+
+      // ---------- Hilfeknopf ----------
+      document.getElementById("helpBtn").addEventListener("click", () => {
+        alert(
+          "Dies ist ein Demformular. Alle Felder sind mit nativer HTML-Validierung versehen.\n" +
+            "Zusätzliche JS-Prüfung erfolgt nur für die Dateigröße/-endung."
+        );
+      });
+
+      // ---------- Eigene Fehlermeldungen (Custom Validity) ----------
+      const pwd = document.getElementById("password");
+      pwd.addEventListener("input", () => pwd.setCustomValidity(""));
+      pwd.addEventListener("invalid", () => {
+        if (pwd.validity.valueMissing)
+          pwd.setCustomValidity("Bitte ein Passwort eingeben.");
+        else if (pwd.validity.tooShort)
+          pwd.setCustomValidity("Mindestens 8 Zeichen.");
+        else if (pwd.validity.patternMismatch)
+          pwd.setCustomValidity("Mind. 1 Buchstabe und 1 Zahl erforderlich.");
+      });
+
+      const search = document.getElementById("search");
+      search.addEventListener("input", () => search.setCustomValidity(""));
+      search.addEventListener("invalid", () => {
+        if (search.validity.valueMissing)
+          search.setCustomValidity("Bitte einen Suchbegriff eingeben.");
+        else if (search.validity.patternMismatch)
+          search.setCustomValidity("Mindestens 3 Zeichen.");
+      });
+
+      // ---------- Datei-Validierung (hier ist JS wirklich nötig) ----------
+      const fileInput = document.getElementById("file");
+      const ALLOWED_EXT = ["png", "jpg", "jpeg", "pdf"];
+      const MAX_BYTES = 2 * 1024 * 1024; // 2 MB
+
+      function validateFileInput() {
+        fileInput.setCustomValidity("");
+        const f = fileInput.files && fileInput.files[0];
+        if (!f) return true;
+        const ext = (f.name.split(".").pop() || "").toLowerCase();
+        if (!ALLOWED_EXT.includes(ext)) {
+          fileInput.setCustomValidity(
+            "Erlaubt sind nur PNG, JPG/JPEG oder PDF."
+          );
+          return false;
+        }
+        if (f.size > MAX_BYTES) {
+          fileInput.setCustomValidity("Datei ist zu groß (max. 2 MB).");
+          return false;
+        }
+        return true;
+      }
+      fileInput.addEventListener("change", validateFileInput);
+
+      // ---------- Radio: sprechende Meldung ----------
+      const radios = document.querySelectorAll('input[name="radio_choice"]');
+      function radioValid() {
+        const anyChecked = [...radios].some((r) => r.checked);
+        radios.forEach((r) =>
+          r.setCustomValidity(anyChecked ? "" : "Bitte eine Option wählen.")
+        );
+        return anyChecked;
+      }
+      radios.forEach((r) => r.addEventListener("change", radioValid));
+
+      // ---------- Submit-Handling ----------
+      const form = document.getElementById("demoForm");
+      const msg = document.getElementById("formMsg");
+
+      form.addEventListener("submit", (e) => {
+        // JS-Only Checks
+        const okFile = validateFileInput();
+        const okRadio = radioValid();
+
+        // Browser-Checks
+        if (!form.checkValidity() || !okFile || !okRadio) {
+          e.preventDefault();
+          form.reportValidity();
+          msg.textContent =
+            "Bitte Eingaben prüfen – einige Felder sind noch ungültig.";
+          msg.className = "err";
+          return;
+        }
+
+        // Demo: tatsächliches Absenden verhindern
+        e.preventDefault();
+        msg.textContent =
+          "✅ Alles gültig! (Demo: Formular wurde nicht abgeschickt.)";
+        msg.className = "ok";
+      });
+    </script>
+  </body>
+</html>
